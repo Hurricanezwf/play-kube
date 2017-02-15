@@ -31,7 +31,7 @@ docker rmi registry.cn-hangzhou.aliyuncs.com/google-containers/kube-discovery-am
 
 
 docker pull registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.3
-docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.3 registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.3
+docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.3 gcr.io/google_containers/kube-dnsmasq-amd64:1.3
 docker rmi registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.3
 
 
