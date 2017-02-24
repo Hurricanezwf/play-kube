@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/bash
 
 docker pull registry.cn-hangzhou.aliyuncs.com/flowci/etcd-amd64:3.0.14-kubeadm
 docker tag registry.cn-hangzhou.aliyuncs.com/flowci/etcd-amd64:3.0.14-kubeadm gcr.io/google_containers/etcd-amd64:3.0.14-kubeadm

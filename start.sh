@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 kubeadm init --use-kubernetes-version v1.5.1
 

@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 kubectl delete -f weave-kube/weave-kube.yaml
 kubeadm reset
