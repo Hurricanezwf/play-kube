@@ -44,7 +44,7 @@ fi
 cd ./easy-rsa-master/easyrsa3/
 ./easyrsa init-pki
 ./easyrsa --batch "--req-cn=${MASTER_IP}@`date +%s`" build-ca nopass
-./easyrsa --subject-alt-name="IP:${MASTER_IP}" build-server-full kubernetes-master nopass
+./easyrsa --subject-alt-name="IP:${MASTER_IP}" build-server-full server nopass
 
 
 # 拷贝到指定目录
@@ -53,16 +53,19 @@ if [ ! $CERTIFICATE_SAVE_PATH ]; then
 	exit
 fi
 
-rm -rf $CERTIFICATE_SAVE_PATH
+if [ -e ${CERTIFICATE_SAVE_PATH} ]; then
+	rm -rf ${CERTIFICATE_SAVE_PATH}_bak
+	mv $CERTIFICATE_SAVE_PATH ${CERTIFICATE_SAVE_PATH}_bak
+fi
 mkdir -p $CERTIFICATE_SAVE_PATH
 
 cp pki/ca.crt $CERTIFICATE_SAVE_PATH
-cp pki/issued/kubernetes-master.crt $CERTIFICATE_SAVE_PATH
-cp pki/private/kubernetes-master.key $CERTIFICATE_SAVE_PATH
+cp pki/issued/server.crt $CERTIFICATE_SAVE_PATH
+cp pki/private/server.key $CERTIFICATE_SAVE_PATH
 
 echo -e "\033[32mGenerate certificats to $CERTIFICATE_SAVE_PATH SUCCESS!\033[0m"
 echo -e "Next, You may need to add parameters to restart kube-apiserver:"
 echo -e "    --client-ca-file=${CERTIFICATE_SAVE_PATH}/ca.crt"
-echo -e "    --ctls-cert-file=${CERTIFICATE_SAVE_PATH}/server.crt"
+echo -e "    --tls-cert-file=${CERTIFICATE_SAVE_PATH}/server.crt"
 echo -e "    --tls-private-key-file=${CERTIFICATE_SAVE_PATH}/server.key"
 echo -e "\n"

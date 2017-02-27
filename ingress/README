@@ -1,0 +1,5 @@
+[1] 准备default-backend和nginx-ingress-controller镜像
+[2] 启动default-backend(运行default-backend.yaml)
+[3] 运行自己的http服务
+[4] 打开ingress.yaml,按照其中的步骤创建secret,然后再运行ingress.yaml
+[5] 详情参照: http://blog.csdn.net/yevvzi/article/details/53844512

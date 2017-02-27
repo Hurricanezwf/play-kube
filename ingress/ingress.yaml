@@ -1,0 +1,28 @@
+# [+] Step1: use openssl to generate crt and key
+#   [-] openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ${KEY_FILE} -out ${CERT_FILE} -subj "/CN=${HOST}/O=${HOST}"
+
+
+# [+] Step2: create secret
+# kubectl create secret tls foo-secret --key /etc/kubernetes/test.key --cert /etc/kubernetes/test.crt
+
+# [+] Step: create ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-zwf
+spec:
+  tls:
+  - hosts:
+    - master
+    secretName: foo-secret
+
+  rules:
+  - host: master     #访问的时候需要把这个域名以"Host:master"的形式写入到header里一并发送
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kube-svc-zwf
+          servicePort: 7000
+
+  

@@ -1,0 +1,51 @@
+#这个文件演示了用configMap替代image中配置文件的方案
+#测试image是一个循环读取/etc/kube/kube.ini配置的程序
+apiVersion: v1
+data:
+  kube-config: |
+    host = "mysql-zwf.default"
+    port = 3306
+    user = root
+    passwd = "111111"
+    dbstr = "mysql"
+kind: ConfigMap
+metadata:
+    name: kube-config-map-zwf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: kube-svc-zwf
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7000
+    targetPort: 7000
+  selector:
+    run: kube-zwf
+
+---
+Version: v1
+kind: Pod
+metadata:
+  name: kube-zwf
+  labels:
+    run: kube-zwf
+spec:
+  containers:
+  - name: kube-zwf
+    image: centos:kube-run
+    ports:
+    - containerPort: 7000
+    volumeMounts:
+    - name: kube-pv-zwf
+      mountPath: /etc/kube
+  volumes:
+  - name: kube-pv-zwf
+    configMap:
+      name: kube-config-map-zwf
+      items:
+      - key: kube-config
+        path: kube.ini
+  

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-zwf
+  labels:
+    app: mysql-zwf
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: zhaomu
+  clusterIP: None
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-zwf
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zhaomu
+    spec:
+      containers:
+      - image: mysql
+        name: mysql-zwf
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "111111"               #这里可以写到secret中
+        ports:
+        - containerPort: 3306
