@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zwf-allianceapi-allianceapi
+  labels:
+    user: zwf
+    project: allianceapi
+    app: allianceapi
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    user: zwf
+    project: allianceapi
+    app: allianceapi
+  #clusterIP: None
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zwf-allianceapi-allianceapi
+  labels:
+    user: zwf
+    project: allianceapi
+    app: allianceapi
+  annotations:
+    pod.beta.kubernetes.io/init-containers: '[
+        {
+            "name": "init-mysql",
+            "image": "busybox",
+            "command": ["sh", "-c", "until nc -w 2 zwf-allianceapi-mysql.default.svc.cluster.local; do echo waiting for mysql ready; sleep 1; done;"]
+        },
+        {
+            "name": "init-redis",
+            "image": "busybox",
+            "command": ["sh", "-c", "until nc -w 2 zwf-allianceapi-redis.default.svc.cluster.local; do echo waiting for redis ready; sleep 1; done;"]
+        }
+    ]'
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        user: zwf
+        project: allianceapi
+        app: allianceapi
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: zwf-allianceapi-allianceapi-allianceapiv1
+        image: bijiben:5000/alliance_api:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        ## mount app's config file
+        volumeMounts:
+        - mountPath: /root/alliance_api/conf
+          name: zwf-allianceapi-allianceapi-conf              # [user]-[project]-[app]-[item]
+          readOnly: true
+        - mountPath: /root/alliance_api/logs
+          name: zwf-allianceapi-allianceapi-logs
+      volumes:
+      - name: zwf-allianceapi-allianceapi-conf
+        nfs:
+          path: /opt/data/alliance_api/app/conf
+          server: bijiben                                     # here is nfs server addr
+      - name: zwf-allianceapi-allianceapi-logs
+        nfs:
+          path: /opt/data/alliance_api/app/logs
+          server: bijiben
