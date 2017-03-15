@@ -1,0 +1,3 @@
+[+] <image> folder contains dockerfile which is to create image running alliance_api
+
+[+] <app> & <mysql> & <redis> folders contains yaml which are to create k8s pod and service
