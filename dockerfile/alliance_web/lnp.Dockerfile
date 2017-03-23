@@ -90,7 +90,9 @@ RUN set -x; \
      make install; \
      \
      if [ -e $PHP_INI_DIR/php.ini ]; then \
-         echo -e "\n\n\nextension=yaf.so" >> $PHP_INI_DIR/php.ini; \
+         echo -e "\n\n\n[yaf]" >> $PHP_INI_DIR/php.ini; \
+         echo -e "extension=yaf.so" >> $PHP_INI_DIR/php.ini; \
+         echo -e "yaf.environ=develop" >> $PHP_INI_DIR/php.ini; \
      fi;
 
 
