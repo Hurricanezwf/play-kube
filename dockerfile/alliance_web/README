@@ -1,0 +1,4 @@
+LNP.Dockerfile用于生成Linux+Nginx+PHP的基础环境
+如果需要修改nginx配置, 需要挂载镜像的/usr/local/nginx/conf目录到本地
+如果需要配置项目, 需要挂载镜像的/usr/local/nginx/html到本地目录, 这个默认的网站根目录
+启动之后可以运行curl http://ip:port/hello.php测试环境是否成功
