@@ -19,6 +19,9 @@
 -- Table structure for table `account_req`
 --
 
+CREATE DATABASE IF NOT EXISTS alliance;
+use alliance;
+
 DROP TABLE IF EXISTS `account_req`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
