@@ -1,0 +1,4 @@
+[+] 在docker build lnp.Dockerfile的时候出现mirrors.aliyun.com域名解析出错的问题
+    解决方式:(1)在/etc/resolv.conf中追加 `nameserver 114.114.114.114`  [推荐]
+             (2)在dockerd启动的时候添加-dns选项,这样所有的镜像都会走这个dns
+

@@ -25,6 +25,8 @@ COPY ./conf/nginx.conf         ./
 
 ## replace default sources
 RUN set -x \
+    && echo "nameserver 114.114.114.114" >> /etc/resolv.conf \
+    && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
     && mv /etc/apt/sources.list /etc/apt/sources.list.bak \
     && { \
         echo 'deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib'; \
@@ -90,9 +92,10 @@ RUN set -x; \
      make install; \
      \
      if [ -e $PHP_INI_DIR/php.ini ]; then \
-         echo -e "\n\n\n[yaf]" >> $PHP_INI_DIR/php.ini; \
-         echo -e "extension=yaf.so" >> $PHP_INI_DIR/php.ini; \
-         echo -e "yaf.environ=develop" >> $PHP_INI_DIR/php.ini; \
+         echo "" >> $PHP_INI_DIR/php.ini; \
+         echo "[yaf]" >> $PHP_INI_DIR/php.ini; \
+         echo "extension=yaf.so" >> $PHP_INI_DIR/php.ini; \
+         #echo "yaf.environ=develop" >> $PHP_INI_DIR/php.ini; \
      fi;
 
 
@@ -109,7 +112,7 @@ RUN set -x \
      && make install \
      && cd .. \
      && mv nginx.conf $NGINX_INSTALL_PATH/conf/nginx.conf \
-     && echo "Hello, the LNP environment is ready for you(^_^)" > $NGINX_INSTALL_PATH/html/hello.php
+     && mkdir $NGINX_INSTALL_PATH/html/mmtrix
 
 
 ## erase pkg

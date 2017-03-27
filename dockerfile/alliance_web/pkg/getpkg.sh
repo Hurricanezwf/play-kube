@@ -3,6 +3,7 @@
 # download php
 if [ ! -e "php-5.6.22.tar.gz" ]; then
     wget http://cn2.php.net/get/php-5.6.22.tar.gz/from/this/mirror -O php-5.6.22.tar.gz
+    md5sum -c php.md5
     if [ $? -ne 0 ]; then
         echo -e "\033[31mDownload php5.6 failed!\033[0m"
         exit
@@ -16,6 +17,7 @@ fi
 # download nginx
 if [ ! -e "nginx-1.10.3.tar.gz" ]; then
     wget http://nginx.org/download/nginx-1.10.3.tar.gz -O nginx-1.10.3.tar.gz
+    md5sum -c nginx.md5
     if [ $? -ne 0 ]; then
         echo -e "\033[31mDownload nginx failed!\033[0m"
         exit
