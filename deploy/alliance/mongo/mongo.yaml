@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zwf-allianceweb-mongo                       #[user]-[project]-[app]
+  labels:
+    user: zwf
+    project: allianceweb
+    app: mongo
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    user: zwf
+    project: allianceweb
+    app: mongo
+  #clusterIP: None
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zwf-allianceweb-mongo                       # [user]-[project]-[app]
+  labels:
+    user: zwf
+    project: allianceweb
+    app: mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        user: zwf
+        project: allianceweb
+        app: mongo
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: zwf-allianceapi-mongo-mongo           # [user]-[project]-[app]-[image]
+        image: bijiben:5000/mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017

@@ -1,0 +1,2 @@
+[step1] 编译alliance_api，然后把二进制文件拷贝到当前目录下
+[step2] 运行docker build -f 
