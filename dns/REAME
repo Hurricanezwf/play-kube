@@ -1,0 +1,2 @@
+[+] 准备两个.yaml里需要的镜像
+[+] 用kubectl启动dns，命令: kubectl create -f [.yaml]
